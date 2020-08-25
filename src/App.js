@@ -1,9 +1,10 @@
 import React from 'react';
+import Grid from './components/Grid';
 
 const App = () => {
   return (
     <div className="App">
-      <div>Yo</div>
+      <Grid />
     </div>
   );
 }
