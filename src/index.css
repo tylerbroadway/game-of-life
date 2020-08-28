@@ -1,10 +1,13 @@
-/* html {
+html {
   background-color: black;
-} */
+  color: white;
+}
 
 .App {
   display: flex; 
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  height: 100%;
+  width: 99%;
 }

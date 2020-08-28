@@ -31,6 +31,7 @@ const Grid = () => {
     return createEmptyGrid();
   });
 
+  const [fast, setFast] = useState(false);
   const [running, setRunning] = useState(false);
   const runningRef = useRef(running);
 
@@ -64,7 +65,7 @@ const Grid = () => {
       });
     });
 
-    setTimeout(runSim, 100);
+    setTimeout(runSim, fast ? 100 : 1000);
   }, []);
 
   return (
@@ -87,7 +88,7 @@ const Grid = () => {
               style={{
                 width: 10,
                 height: 10,
-                backgroundColor: grid[i][k] ? 'black' : 'white',
+                backgroundColor: grid[i][k] ? 'red' : 'white',
                 border: '1px solid black'
               }}
             />
@@ -118,6 +119,10 @@ const Grid = () => {
           }}>
             Random
           </button>
+          <span style={{ marginLeft: "20px" }} />
+          <label>Simulation Speed: </label>
+          <button onClick={() => setFast(true)}>Fast</button>
+          <button onClick={() => setFast(false)}>Slow</button>
     </div>
   )
 }
