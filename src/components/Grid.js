@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef, useCallback } from 'react';
-import produce from 'immer';
+import React, { useState, useRef, useCallback } from "react";
+import produce from "immer";
 
 const Grid = () => {
   const numCols = 50;
@@ -15,8 +15,8 @@ const Grid = () => {
     [1, 1],
     [-1, 1],
     [1, 0],
-    [-1, 0]
-  ]
+    [-1, 0],
+  ];
 
   const createEmptyGrid = () => {
     const rows = [];
@@ -24,14 +24,13 @@ const Grid = () => {
       rows.push(Array.from(Array(numCols), () => 0));
     }
 
-    return rows
-  }
+    return rows;
+  };
 
   const [grid, setGrid] = useState(() => {
     return createEmptyGrid();
   });
 
-  const [fast, setFast] = useState(false);
   const [running, setRunning] = useState(false);
   const runningRef = useRef(running);
 
@@ -42,8 +41,8 @@ const Grid = () => {
       return;
     }
 
-    setGrid(g => {
-      return produce(g, gridCopy => {
+    setGrid((g) => {
+      return produce(g, (gridCopy) => {
         for (let i = 0; i < numRows; i++) {
           for (let k = 0; k < numCols; k++) {
             let neighbors = 0;
@@ -65,66 +64,73 @@ const Grid = () => {
       });
     });
 
-    setTimeout(runSim, fast ? 100 : 1000);
+    setTimeout(runSim, 100);
   }, []);
 
   return (
-    <div className='grid-container'>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: `repeat(${numCols}, 10px)`
-      }}>
-        {grid.map((rows, i) => 
+    <div className="grid-container">
+      <h3>Click a few cells, press start, watch the magic happen!</h3>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${numCols}, 10px)`,
+        }}
+      >
+        {grid.map((rows, i) =>
           rows.map((col, k) => (
             <div
               key={`${i}-${k}`}
               onClick={() => {
-                const newGrid = produce(grid, gridCopy => {
+                const newGrid = produce(grid, (gridCopy) => {
                   gridCopy[i][k] = grid[i][k] ? 0 : 1;
-                })
+                });
 
                 setGrid(newGrid);
               }}
               style={{
                 width: 10,
                 height: 10,
-                backgroundColor: grid[i][k] ? 'red' : 'white',
-                border: '1px solid black'
+                backgroundColor: grid[i][k] ? "red" : "white",
+                border: "1px solid black",
               }}
             />
           ))
         )}
       </div>
-          <button onClick={() => {
-            setRunning(!running);
-            if (!running) {
-              runningRef.current = true;
-              runSim();
-            }
-          }}>
-            {running ? 'Stop Simulation' : 'Run Simulation'}
-          </button>
-          <button onClick={() => {
-            setGrid(createEmptyGrid())
-          }}>
-            Clear
-          </button>
-          <button onClick={() => {
-            const rows = [];
-            for (let i = 0; i < numRows; i++) {
-              rows.push(Array.from(Array(numCols), () => Math.random() > .8 ? 1 : 0));
-            }
-        
-            setGrid(rows)
-          }}>
-            Random
-          </button>
-          <span style={{ marginLeft: "20px" }} />
-          <label>Simulation Speed: </label>
-          <button onClick={() => setFast(true)}>Fast</button>
-          <button onClick={() => setFast(false)}>Slow</button>
+      <button
+        onClick={() => {
+          setRunning(!running);
+          if (!running) {
+            runningRef.current = true;
+            runSim();
+          }
+        }}
+      >
+        {running ? "Stop Simulation" : "Run Simulation"}
+      </button>
+      <button
+        onClick={() => {
+          setGrid(createEmptyGrid());
+        }}
+      >
+        Clear
+      </button>
+      <button
+        onClick={() => {
+          const rows = [];
+          for (let i = 0; i < numRows; i++) {
+            rows.push(
+              Array.from(Array(numCols), () => (Math.random() > 0.8 ? 1 : 0))
+            );
+          }
+
+          setGrid(rows);
+        }}
+      >
+        Random
+      </button>
     </div>
-  )
-}
+  );
+};
 
 export default Grid;
