@@ -2,10 +2,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef, useCallback } from "react";
 import produce from "immer";
+import { StyledGrid, StyledButtons } from "../styled/styled";
 
 const Grid = () => {
-  const numCols = 50;
-  const numRows = 50;
+  const numCols = 25;
+  const numRows = 25;
 
   const operations = [
     [0, 1],
@@ -68,12 +69,11 @@ const Grid = () => {
   }, []);
 
   return (
-    <div className="grid-container">
-      <h3>Click a few cells, press start, watch the magic happen!</h3>
+    <StyledGrid>
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${numCols}, 10px)`,
+          gridTemplateColumns: `repeat(${numCols}, 20px)`,
         }}
       >
         {grid.map((rows, i) =>
@@ -88,48 +88,50 @@ const Grid = () => {
                 setGrid(newGrid);
               }}
               style={{
-                width: 10,
-                height: 10,
-                backgroundColor: grid[i][k] ? "red" : "white",
-                border: "1px solid black",
+                width: 20,
+                height: 20,
+                backgroundColor: grid[i][k] ? "#203a43" : "white",
+                border: "1px solid gray",
               }}
             />
           ))
         )}
       </div>
-      <button
-        onClick={() => {
-          setRunning(!running);
-          if (!running) {
-            runningRef.current = true;
-            runSim();
-          }
-        }}
-      >
-        {running ? "Stop Simulation" : "Run Simulation"}
-      </button>
-      <button
-        onClick={() => {
-          setGrid(createEmptyGrid());
-        }}
-      >
-        Clear
-      </button>
-      <button
-        onClick={() => {
-          const rows = [];
-          for (let i = 0; i < numRows; i++) {
-            rows.push(
-              Array.from(Array(numCols), () => (Math.random() > 0.8 ? 1 : 0))
-            );
-          }
+      <StyledButtons>
+        <button
+          onClick={() => {
+            setRunning(!running);
+            if (!running) {
+              runningRef.current = true;
+              runSim();
+            }
+          }}
+        >
+          {running ? "Stop Simulation" : "Run Simulation"}
+        </button>
+        <button
+          onClick={() => {
+            setGrid(createEmptyGrid());
+          }}
+        >
+          Clear
+        </button>
+        <button
+          onClick={() => {
+            const rows = [];
+            for (let i = 0; i < numRows; i++) {
+              rows.push(
+                Array.from(Array(numCols), () => (Math.random() > 0.8 ? 1 : 0))
+              );
+            }
 
-          setGrid(rows);
-        }}
-      >
-        Random
-      </button>
-    </div>
+            setGrid(rows);
+          }}
+        >
+          Random
+        </button>
+      </StyledButtons>
+    </StyledGrid>
   );
 };
 

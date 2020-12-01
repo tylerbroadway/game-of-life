@@ -1,14 +1,15 @@
-import React from 'react';
-import Grid from './components/Grid';
-import Rules from './components/Rules';
+import React from "react";
+import Grid from "./components/Grid";
+import Rules from "./components/Rules";
+import { StyledApp } from "./styled/styled";
 
 const App = () => {
   return (
-    <div className="App">
+    <StyledApp>
       <Grid />
       <Rules />
-    </div>
+    </StyledApp>
   );
-}
+};
 
 export default App;
